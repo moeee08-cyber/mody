@@ -19,6 +19,10 @@
 .caption{background:#f3eadb}
 .caption-copy{color:#51425b}
 .caption-label{color:#9864a5}
+.memory-card{cursor:pointer;touch-action:manipulation}
+.caption{display:block;max-height:0;overflow:hidden;grid-template-rows:none;transition:max-height .45s ease;background:#f3eadb}
+.memory-card.open .caption{max-height:900px;grid-template-rows:none}
+.caption-inner{overflow:visible}
 .memory-card.special .file-name:after{color:#925ca0}
 .fragile-overlay{filter:drop-shadow(0 20px 28px #0b071366)}
 @media(max-width:700px){
