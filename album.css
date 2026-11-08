@@ -23,10 +23,11 @@
 .caption{display:block;max-height:0;overflow:hidden;grid-template-rows:none;transition:max-height .45s ease;background:#f3eadb}
 .memory-note{display:block}
 .memory-summary{position:relative;display:block;list-style:none;cursor:pointer}
+.memory-summary .media-wrap{display:block}
 .memory-summary::-webkit-details-marker{display:none}
 .memory-note[open] .caption{max-height:1200px;grid-template-rows:none}
 .caption-inner{overflow:visible}
-.click-ring{position:absolute;top:12px;right:12px;z-index:3;width:46px;height:46px;display:grid;place-items:center;border:1px solid #ffe4fb;border-radius:50%;background:#28143bdc;color:#ffe4fb;font:8px var(--mono);letter-spacing:.08em;box-shadow:0 0 0 4px #f2b9e82e,0 4px 14px #10091c66;transition:transform .2s,box-shadow .2s}
+.click-ring{appearance:none;position:absolute;top:12px;right:12px;z-index:3;width:46px;height:46px;padding:0;display:grid;place-items:center;border:1px solid #ffe4fb;border-radius:50%;background:#28143bdc;color:#ffe4fb;font:8px var(--mono);letter-spacing:.08em;cursor:pointer;box-shadow:0 0 0 4px #f2b9e82e,0 4px 14px #10091c66;transition:transform .2s,box-shadow .2s}
 .memory-summary:hover .click-ring,.memory-summary:focus-visible .click-ring{transform:scale(1.1);box-shadow:0 0 0 7px #f2b9e844,0 0 22px #f2b9e8aa}
 .memory-note[open] .click-ring{background:#835294;color:white}
 .memory-card.special .file-name:after{color:#925ca0}

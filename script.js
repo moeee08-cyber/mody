@@ -66,17 +66,19 @@ memories.forEach((group, index) => {
   const grid = document.createElement('div'); grid.className = 'memory-grid';
   group.items.forEach(([filename, description]) => {
     const card = document.createElement('article'); card.className = 'memory-card';
-    const media = document.createElement('div'); media.className = 'media-wrap'; media.append(makeMedia(filename));
     const isVideo = /\.(mov|mp4|webm)$/i.test(filename);
+    const media = document.createElement(isVideo ? 'div' : 'span'); media.className = 'media-wrap'; media.append(makeMedia(filename));
     if (isVideo) { const play = document.createElement('span'); play.className = 'play-mark'; play.textContent = '▶'; play.setAttribute('aria-hidden', 'true'); media.append(play); }
     const label = document.createElement('span'); label.className = 'file-name'; label.textContent = filename;
     const details = document.createElement('details'); details.className = 'memory-note';
     const summary = document.createElement('summary'); summary.className = 'memory-summary';
-    const hint = document.createElement('span'); hint.className = 'click-ring'; hint.textContent = 'CLICK'; hint.setAttribute('aria-hidden', 'true');
-    summary.append(label, hint);
+    const hint = document.createElement('button'); hint.className = 'click-ring'; hint.type = 'button'; hint.textContent = 'CLICK'; hint.setAttribute('aria-label', 'Open photo note'); hint.setAttribute('aria-expanded', 'false');
+    summary.append(label);
     if (!isVideo) summary.prepend(media); else card.append(media);
     const caption = document.createElement('div'); caption.className = 'caption'; const inner = document.createElement('div'); inner.className = 'caption-inner'; const copy = document.createElement('div'); copy.className = 'caption-copy'; const capLabel = document.createElement('span'); capLabel.className = 'caption-label'; capLabel.textContent = 'A LITTLE NOTE'; copy.append(capLabel, document.createTextNode(description)); inner.append(copy); caption.append(inner);
-    details.append(summary, caption); card.append(details);
+    details.append(summary, caption); card.append(details, hint);
+    hint.addEventListener('click', (event) => { event.stopPropagation(); details.open = !details.open; });
+    details.addEventListener('toggle', () => { hint.textContent = details.open ? 'CLOSE' : 'CLICK'; hint.setAttribute('aria-expanded', String(details.open)); hint.setAttribute('aria-label', details.open ? 'Close photo note' : 'Open photo note'); });
     grid.append(card);
   });
   section.append(info, grid); timeline.append(section);
