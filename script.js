@@ -65,21 +65,18 @@ memories.forEach((group, index) => {
   const count = document.createElement('div'); count.className = 'group-count'; count.textContent = `${String(index + 1).padStart(2, '0')} / ${String(memories.length).padStart(2, '0')}　·　${group.items.length} ${group.items.length === 1 ? 'MEMORY' : 'MEMORIES'}`; info.append(count);
   const grid = document.createElement('div'); grid.className = 'memory-grid';
   group.items.forEach(([filename, description]) => {
-    const card = document.createElement('article'); card.className = 'memory-card'; card.tabIndex = 0; card.setAttribute('role', 'button'); card.setAttribute('aria-expanded', 'false'); card.setAttribute('aria-label', `${filename}，点击展开回忆`);
+    const card = document.createElement('article'); card.className = 'memory-card';
     const media = document.createElement('div'); media.className = 'media-wrap'; media.append(makeMedia(filename));
-    if (/\.(mov|mp4|webm)$/i.test(filename)) { const play = document.createElement('span'); play.className = 'play-mark'; play.textContent = '▶'; play.setAttribute('aria-hidden', 'true'); media.append(play); }
+    const isVideo = /\.(mov|mp4|webm)$/i.test(filename);
+    if (isVideo) { const play = document.createElement('span'); play.className = 'play-mark'; play.textContent = '▶'; play.setAttribute('aria-hidden', 'true'); media.append(play); }
     const label = document.createElement('span'); label.className = 'file-name'; label.textContent = filename;
-    const caption = document.createElement('div'); caption.className = 'caption'; caption.setAttribute('aria-hidden', 'true'); const inner = document.createElement('div'); inner.className = 'caption-inner'; const copy = document.createElement('div'); copy.className = 'caption-copy'; const capLabel = document.createElement('span'); capLabel.className = 'caption-label'; capLabel.textContent = 'A LITTLE NOTE'; copy.append(capLabel, document.createTextNode(description)); inner.append(copy); caption.append(inner);
-    card.append(media, label, caption);
-    const toggle = () => {
-      const open = !card.classList.contains('open');
-      card.classList.toggle('open', open);
-      card.setAttribute('aria-expanded', String(open));
-      caption.setAttribute('aria-hidden', String(!open));
-      caption.style.maxHeight = open ? '1200px' : '0px';
-    };
-    card.addEventListener('click', (event) => { if (event.target.closest('video')) return; toggle(); });
-    card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle(); } });
+    const details = document.createElement('details'); details.className = 'memory-note';
+    const summary = document.createElement('summary'); summary.className = 'memory-summary';
+    const hint = document.createElement('span'); hint.className = 'click-ring'; hint.textContent = 'CLICK'; hint.setAttribute('aria-hidden', 'true');
+    summary.append(label, hint);
+    if (!isVideo) summary.prepend(media); else card.append(media);
+    const caption = document.createElement('div'); caption.className = 'caption'; const inner = document.createElement('div'); inner.className = 'caption-inner'; const copy = document.createElement('div'); copy.className = 'caption-copy'; const capLabel = document.createElement('span'); capLabel.className = 'caption-label'; capLabel.textContent = 'A LITTLE NOTE'; copy.append(capLabel, document.createTextNode(description)); inner.append(copy); caption.append(inner);
+    details.append(summary, caption); card.append(details);
     grid.append(card);
   });
   section.append(info, grid); timeline.append(section);
