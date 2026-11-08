@@ -26,7 +26,7 @@ const memories = [
   { date: 'OCTOBER 09', title: '', description: '发生了很多的旅程，写到这里的时候也在想应该怎样来描绘，对不起，你应该在那几天里承受了太多吧。后来也小心翼翼不知道怎么提起，害怕二次伤害，又害怕没有交代你的不安。照片里的那一边依旧很美好。谢谢你的选择，我会学会更独立地管理我的情绪，管理关系的边界，做一个可以给你安全感的人。', items: [
     ['1009.HEIC', '我们和可爱小树'], ['1011.HEIC', '没有徒步的疲惫，反倒像踏着枫叶可以慢悠悠散步的早晨']
   ], special: true, revealImage: '0.PNG'},
-  { date: 'OCTOBER 17', title: '', items: [['1017.HEIC', '一起看了一部很好的电影，一起喝酒，吃同样的虾条。我们有更多更多这样的电影之夜。']]}
+  { date: 'OCTOBER 17', title: '', items: [['1017.HEIC', '一起看了一部很好的电影，一起喝酒，吃同样的虾条。我们要有更多更多这样的电影之夜。']]}
 ];
 
 const timeline = document.querySelector('#timeline');
@@ -76,7 +76,7 @@ memories.forEach((group, index) => {
       card.classList.toggle('open', open);
       card.setAttribute('aria-expanded', String(open));
       caption.setAttribute('aria-hidden', String(!open));
-      caption.style.maxHeight = open ? `${caption.scrollHeight}px` : '0px';
+      caption.style.maxHeight = open ? '1200px' : '0px';
     };
     card.addEventListener('click', (event) => { if (event.target.closest('video')) return; toggle(); });
     card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle(); } });
