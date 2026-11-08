@@ -18,7 +18,7 @@ const memories = [
     ['0831.JPG', '把自己想象成 xwd 的样子，就有耐心做饭喂饱自己。复刻蛋炒饭盖饭'], ['0831_2.JPG', '花了一整天把属于我们的床搬了进来，这样就可以把过去的继承到未来']
   ]},
   { date: 'SEPTEMBER 10 — 12', title: '', description: 'xwd 回来了！', items: [
-    ['0910.HEIC', '又一起吃上年糕了。改良配方鸣谢桂花蜜'], ['0911.HEIC', 'xwd 发现的好地方。又探索出芝加哥新的一些面向，从此爱上了 312。'], ['0912.MOV', '小 xwd 蹦迪，再无聊的超现实主义音乐都没有把我们的快乐赶跑']
+    ['0910.HEIC', '又一起吃上年糕了。在一起食变稀罕的日子里，大人中。'], ['0911.HEIC', 'xwd 发现的好地方。又探索出芝加哥新的一些面向，从此爱上了 312。'], ['0912.MOV', '小 xwd 蹦迪，再无聊的超现实主义音乐都没有把我们的快乐赶跑']
   ]},
   { date: 'SEPTEMBER 25 — 27', title: '', description: '可以一起在新的城市相见，谢谢 wxd 邀请我来纽约。', items: [
     ['0925.HEIC', '把台湾的回忆又复现了，好像没有时差的作用比在台北喝得还尽兴'], ['0925_2.JPG', '然后又穿梭回上海，想到了上一个夏天，一起在上海老小区进门口发现的云南风味小酒馆。记忆和味觉就这样被打通'], ['0927.HEIC', '提前两天给 xwd 过生日，永远想要喜欢热热闹闹仪式的 xwd 可以过热热闹闹的生日'], ['0927_2.MP4', '室内烟花都放了，许的愿一定会成真的']
@@ -26,7 +26,7 @@ const memories = [
   { date: 'OCTOBER 09', title: '', description: '发生了很多的旅程，写到这里的时候也在想应该怎样来描绘，对不起，你应该在那几天里承受了太多吧。后来也小心翼翼不知道怎么提起，害怕二次伤害，又害怕没有交代你的不安。照片里的那一边依旧很美好。谢谢你的选择，我会学会更独立地管理我的情绪，管理关系的边界，做一个可以给你安全感的人。', items: [
     ['1009.HEIC', '我们和可爱小树'], ['1011.HEIC', '没有徒步的疲惫，反倒像踏着枫叶可以慢悠悠散步的早晨']
   ], special: true, revealImage: '0.PNG'},
-  { date: 'OCTOBER 17', title: '', items: [['1017.HEIC', '一起看了一部很好的电影，一起喝酒，吃同样的虾条。我们要多多有这样的电影之夜。']]}
+  { date: 'OCTOBER 17', title: '', items: [['1017.HEIC', '一起看了一部很好的电影，一起喝酒，吃同样的虾条。我们有更多更多这样的电影之夜。']]}
 ];
 
 const timeline = document.querySelector('#timeline');
@@ -69,9 +69,15 @@ memories.forEach((group, index) => {
     const media = document.createElement('div'); media.className = 'media-wrap'; media.append(makeMedia(filename));
     if (/\.(mov|mp4|webm)$/i.test(filename)) { const play = document.createElement('span'); play.className = 'play-mark'; play.textContent = '▶'; play.setAttribute('aria-hidden', 'true'); media.append(play); }
     const label = document.createElement('span'); label.className = 'file-name'; label.textContent = filename;
-    const caption = document.createElement('div'); caption.className = 'caption'; const inner = document.createElement('div'); inner.className = 'caption-inner'; const copy = document.createElement('div'); copy.className = 'caption-copy'; const capLabel = document.createElement('span'); capLabel.className = 'caption-label'; capLabel.textContent = 'A LITTLE NOTE'; copy.append(capLabel, document.createTextNode(description)); inner.append(copy); caption.append(inner);
+    const caption = document.createElement('div'); caption.className = 'caption'; caption.setAttribute('aria-hidden', 'true'); const inner = document.createElement('div'); inner.className = 'caption-inner'; const copy = document.createElement('div'); copy.className = 'caption-copy'; const capLabel = document.createElement('span'); capLabel.className = 'caption-label'; capLabel.textContent = 'A LITTLE NOTE'; copy.append(capLabel, document.createTextNode(description)); inner.append(copy); caption.append(inner);
     card.append(media, label, caption);
-    const toggle = () => { const open = card.classList.toggle('open'); card.setAttribute('aria-expanded', String(open)); };
+    const toggle = () => {
+      const open = !card.classList.contains('open');
+      card.classList.toggle('open', open);
+      card.setAttribute('aria-expanded', String(open));
+      caption.setAttribute('aria-hidden', String(!open));
+      caption.style.maxHeight = open ? `${caption.scrollHeight}px` : '0px';
+    };
     card.addEventListener('click', (event) => { if (event.target.closest('video')) return; toggle(); });
     card.addEventListener('keydown', (event) => { if (event.key === 'Enter' || event.key === ' ') { event.preventDefault(); toggle(); } });
     grid.append(card);
